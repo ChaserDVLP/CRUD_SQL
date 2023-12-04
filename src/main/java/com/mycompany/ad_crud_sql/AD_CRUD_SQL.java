@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.ad_crud_sql;
 
 import java.sql.*;
 import java.util.Scanner;
 
-/**
- *
- * @author xChas
- */
+
 public class AD_CRUD_SQL {
     
     static final String DB_URL = "jdbc:mysql://localhost:3306/jcvd";
@@ -18,15 +11,19 @@ public class AD_CRUD_SQL {
     static final String PASS = "1234";
     static Statement stmt = null;
     
+    //Buscar nombre pasado por parámetro
     static public boolean buscarNombre(String nombreBuscado) throws SQLException {
         
         String querySelect = "SELECT Nombre FROM videojuegos WHERE Nombre =  '" + nombreBuscado + "'";
         boolean res = false;
         
         try {
+            //Establecemos conexión
             Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(querySelect);
+            //Para consultas usamos el método executeQuery()
+            //Para modificaciones usamos el método executeUpdate()
             
             while (rs.next()) {
                 System.out.println("Se ha encontrado el nombre: "+rs.getString("Nombre"));
@@ -46,6 +43,7 @@ public class AD_CRUD_SQL {
         return res;
     }
     
+    //Ejecutar consulta pasada como parámetro
     static public void ejecutarConsulta(String query) throws SQLException {
         
         try {
@@ -72,6 +70,7 @@ public class AD_CRUD_SQL {
         }
     }
     
+    //Insertar registro pasando los valores como parametro
     static public void nuevoRegistro (String nombre, String genero, String fechaLanzamiento, 
             String compañia, float precio) throws SQLException {
         
@@ -91,6 +90,7 @@ public class AD_CRUD_SQL {
         } catch (SQLException e) {
             System.out.println("Error al conectar la BBDD: "+e);
             e.printStackTrace();
+        
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -98,6 +98,7 @@ public class AD_CRUD_SQL {
         }
     }
     
+    //Insertar un registro pasando los valores por terminal
     static public void nuevoRegistroManual() throws SQLException {
         
         String nombre, genero, fechaLanzamiento, compañia;
@@ -138,6 +139,7 @@ public class AD_CRUD_SQL {
         
     }
     
+    //Eliminar registro buscando por el nombre del registro
     static public boolean eliminarRegistro (String nombre) throws SQLException {
         
         boolean res = false;
@@ -181,7 +183,7 @@ public class AD_CRUD_SQL {
         ejecutarConsulta("SELECT * FROM videojuegos WHERE Nombre = 'Monster Hunter World'");
         
         
-        //COMENTADOS LOS MÉTODOS PARA NO LLENAR LA BBDD DE BASURA
+        //MÉTODOS COMENTADOS PARA NO LLENAR LA BBDD DE BASURA
         
         //nuevoRegistro("prueba", "test", "2010-10-10", "test", 50);
         //nuevoRegistroManual();
